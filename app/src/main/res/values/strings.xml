@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SeeSoSample_Kotlin</string>
+    <string name="title_control_demo_1">Button</string>
+    <string name="title_control_demo_2">Select</string>
+    <string name="title_control_demo_3">Scroll</string>
+    <string name="title_calibration">Calibration</string>
+    <string name="title_roi">ROI</string>
+    <string name="title_page">Page</string>
+    <string name="title_item">Item</string>
+    <string name="title_line">Text content: Line</string>
+</resources>

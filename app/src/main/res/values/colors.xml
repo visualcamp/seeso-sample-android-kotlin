@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="all_gray900">#1D1D1D</color>
+    <color name="all_gray800">#6A6A6A</color>
+    <color name="all_gray700">#828282</color>
+    <color name="all_gray600">#B1B1B1</color>
+    <color name="all_gray500">#CCCCCC</color>
+    <color name="all_gray400">#DDDDDD</color>
+    <color name="all_gray300">#E5E5E5</color>
+    <color name="all_gray200">#F5F5F5</color>
+    <color name="all_gray100">#FDFDFD</color>
+    <color name="all_black">#000000</color>
+    <color name="all_white">#FFFFFF</color>
+    <color name="all_red">#E20A0A</color>
+    <color name="all_blue">#008BFF</color>
+    <color name="all_primary_dark">#DA6200</color>
+    <color name="all_placeholder">#F5F5F5</color>
+    <color name="all_primary">#FF7300</color>
+    <color name="all_primary_hovered">#FA8A2E</color>
+    <color name="all_primary_pressed">#E66800</color>
+    <color name="all_primary_disabled">#CCCCCC</color>
+    <color name="all_kakao">#FEE500</color>
+    <color name="all_refresh">@color/all_gray800</color>
+    <color name="all_indicator_active">#FDFDFD</color>
+    <color name="all_indicator_unactive">#4DFDFDFD</color>
+    <color name="all_shimmer">#F5F5F5</color>
+
+    <color name="setting_switch_track_checked">#FFCA9E</color>
+    <color name="setting_switch_track_default">#9E9E9E</color>
+</resources>

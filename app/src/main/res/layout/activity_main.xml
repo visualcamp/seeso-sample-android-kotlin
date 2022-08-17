@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/total_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:windowSoftInputMode="adjustResize"
+        tools:context=".activity.MainActivity">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#F5F5F5"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F5F5F5">
+
+                <TextView
+                    android:id="@+id/title_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/all_white"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="20dp"
+                    android:text="SeeSo Sample"
+                    android:textColor="@color/all_gray900"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/title_separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/all_gray400"
+                    app:layout_constraintTop_toBottomOf="@id/title_text" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/title_separator">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="15dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text="Follow steps below to experience gaze tracking."
+                            android:textColor="#1D1D1D"
+                            android:textSize="17sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/permission_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F5F5F5"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp">
+
+                        <TextView
+                            android:id="@+id/guide_permission"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:maxLines="2"
+                            android:paddingLeft="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="We must have camera permission!"
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFF"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/guide_permission">
+
+                            <TextView
+                                android:id="@+id/request_permission_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Click here to request camera permission"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/upper_init_button_guide_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F5F5F5"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/guide_init_gaze_tracker"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:maxLines="2"
+                            android:paddingHorizontal="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="You need to init GazeTracker first."
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/init_gaze_tracker_button_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/all_white"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/guide_init_gaze_tracker">
+
+                            <TextView
+                                android:id="@+id/init_gaze_tracker_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Initialize GazeTracker"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/init_user_option_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/all_white"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="0dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/init_gaze_tracker_button_container">
+
+                            <View
+                                android:id="@+id/init_user_option_separator"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="15dp"
+                                android:layout_marginVertical="10dp"
+                                android:text="with User Option"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/init_user_option_separator" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+
+                                android:id="@+id/switch_init_user_option"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:trackTintMode="src_atop" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:id="@+id/guide_init_with_user_option"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:maxLines="2"
+                            android:paddingHorizontal="10dp"
+                            android:text="You can init GazeTracker With UserOption!\n(need to restart GazeTracker)"
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/init_user_option_container" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/upper_start_tracking_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F5F5F5"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/guide_start_gaze_tracking"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:maxLines="2"
+                            android:paddingHorizontal="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Now You can track your gaze!"
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/start_tracking_button_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/all_white"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/guide_start_gaze_tracking">
+
+                            <TextView
+                                android:id="@+id/start_tracking_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Start Tracking"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/calibration_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F5F5F5"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/guide_calibration"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:maxLines="2"
+                            android:paddingHorizontal="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="And also you can improve accuracy through calibration."
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/all_white"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/guide_calibration">
+
+                            <TextView
+                                android:id="@+id/start_calibration_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Start Calibration"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/calibration_separator1"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/start_calibration_button" />
+
+                            <TextView
+                                android:id="@+id/text_calibration_type"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Calibration Type"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/calibration_separator1" />
+
+                            <com.creageek.segmentedbutton.SegmentedButton
+                                android:id="@+id/segmented_calibration_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:orientation="horizontal"
+                                app:borderColor="@color/all_gray700"
+                                app:layout_constraintBottom_toTopOf="@id/calibration_separator2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/text_calibration_type"
+                                app:rippleColorChecked="@color/all_gray700"
+                                app:segmentColorChecked="@color/all_gray700"
+                                app:spreadType="evenly"
+                                app:textColor="@color/all_gray700">
+
+                                <RadioButton
+                                    android:id="@+id/one_point"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="ONE_POINT" />
+
+                                <RadioButton
+                                    android:id="@+id/five_point"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="FIVE_POINT" />
+                            </com.creageek.segmentedbutton.SegmentedButton>
+
+                            <View
+                                android:id="@+id/calibration_separator2"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                android:visibility="gone"
+                                app:layout_constraintTop_toBottomOf="@id/segmented_calibration_type" />
+
+                            <TextView
+                                android:id="@+id/save_calibration_data_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Save Calibration Data to Local"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/calibration_separator2" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/user_status_container"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/all_white"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/guide_calibration">
+
+                        <View
+                            android:id="@+id/user_status_top_separator1"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:background="@color/all_gray200"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/user_status_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="5dp"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="5dp"
+                            android:text="User Options Info"
+                            android:textColor="#1D1D1D"
+                            android:textSize="17sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/user_status_top_separator1" />
+
+                        <View
+                            android:id="@+id/user_status_top_separator2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#F5F5F5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/user_status_title" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="30dp"
+
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/user_status_top_separator2">
+
+
+                            <TextView
+                                android:id="@+id/attention_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="15dp"
+
+                                android:text="Attention score of recent 30s"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintEnd_toStartOf="@id/attention_score"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator1"/>
+
+                            <TextView
+                                android:id="@+id/attention_score"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="30%"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/user_option_separator1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/user_option_separator1"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/attention_text" />
+
+                            <TextView
+                                android:id="@+id/blink_state_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Blink State"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator2"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator1" />
+
+                            <TextView
+                                android:id="@+id/blink_state"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="ㅇ_ㅇ"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator1" />
+
+                            <View
+                                android:id="@+id/user_option_separator2"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/blink_state_text" />
+
+                            <TextView
+                                android:id="@+id/sleepy_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Do I look seepy now?"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator3"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator2" />
+
+                            <TextView
+                                android:id="@+id/sleepy_state"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="nope"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator3"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator2" />
+
+                            <View
+                                android:id="@+id/user_option_separator3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/sleepy_text" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Show Detail Option"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator3" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/switch_user_option_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator3" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/detail_user_status_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/user_status_container">
+
+                        <View
+                            android:id="@+id/detail_status_separator"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:background="@color/all_gray200"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="15dp"
+
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/detail_status_separator">
+
+
+                            <TextView
+                                android:id="@+id/avg_attention_score_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Attention score of recent 30s"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator1"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/avg_attention_score"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="8.832"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator1"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/avg_attention_score_text" />
+
+                            <TextView
+                                android:id="@+id/attention_check_count_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="attention check count"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator2"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator1" />
+
+                            <TextView
+                                android:id="@+id/attention_check_count"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="149"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator1" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator2"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/attention_check_count_text" />
+
+                            <TextView
+                                android:id="@+id/left_only_blink_count_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="left only blink count"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator3"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator2" />
+
+                            <TextView
+                                android:id="@+id/left_only_blink_count"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="0"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator3"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator2" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/left_only_blink_count_text" />
+
+                            <TextView
+                                android:id="@+id/right_only_blink_count_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="right only blink count"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/detail_user_status_separator4"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator3" />
+
+                            <TextView
+                                android:id="@+id/right_only_blink_count"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="0"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/detail_user_status_separator4"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator3" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator4"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/right_only_blink_count_text" />
+
+                            <TextView
+                                android:id="@+id/both_blink_count_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="both blink count"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/detail_user_status_separator5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator4" />
+
+                            <TextView
+                                android:id="@+id/both_blink_count"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="0"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/detail_user_status_separator5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator4" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator5"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/both_blink_count_text" />
+
+                            <TextView
+                                android:id="@+id/average_eye_openness_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="average eye Openness"
+                                android:textColor="#1D1D1D"
+                                android:textSize="15sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator5" />
+
+                            <TextView
+                                android:id="@+id/average_eye_openness"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="0"
+                                android:textColor="#1D1D1D"
+                                android:textSize="15sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator5" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loading_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#D0000000"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/loading_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingBottom="15dp"
+                        android:text="Initializing Gaze Tracker..."
+                        android:textAlignment="center"
+                        android:textColor="@color/all_white"
+                        android:textSize="24sp" />
+
+                    <ProgressBar
+                        android:id="@+id/loading_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/gaze_point_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <com.mikhaellopez.circleview.CircleView
+                android:id="@+id/gaze_point_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="40dp"
+                app:cv_color="@color/all_red" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/calibration_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#D0000000"
+            android:visibility="gone">
+
+            <FrameLayout
+                android:id="@+id/calibration_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="40dp">
+
+                <ProgressBar
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/calibration_percent_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="40%"
+                    android:textColor="@color/all_white"
+                    android:textSize="18sp" />
+            </FrameLayout>
+
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
