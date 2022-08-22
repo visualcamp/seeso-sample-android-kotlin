@@ -1,4 +1,4 @@
-package camp.visual.android.kotlin.sample.seesosample
+package camp.visual.android.kotlin.sample
 
 import org.junit.Test
 
