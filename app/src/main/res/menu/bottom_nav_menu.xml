@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_control_button"
+        android:icon="?android:attr/textCursorDrawable"
+        android:title="@string/title_control_demo_1"/>
+
+    <item
+        android:id="@+id/navigation_control_select"
+        android:icon="?android:attr/textCursorDrawable"
+        android:title="@string/title_control_demo_2"/>
+
+    <item
+        android:id="@+id/navigation_control_scroll"
+        android:icon="?android:attr/textCursorDrawable"
+        android:title="@string/title_control_demo_3"/>
+
+</menu>

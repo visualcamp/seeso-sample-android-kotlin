@@ -1,267 +1,172 @@
 package camp.visual.android.kotlin.sample.manager
 
 import android.content.Context
-import android.view.TextureView
 import camp.visual.gazetracker.GazeTracker
 import camp.visual.gazetracker.callback.*
-import camp.visual.gazetracker.constant.*
+import camp.visual.gazetracker.constant.AccuracyCriteria
+import camp.visual.gazetracker.constant.CalibrationModeType
+import camp.visual.gazetracker.constant.StatusErrorType
 import java.lang.ref.WeakReference
 
-public class GazeTrackerManager {
+class GazeTrackerManager private constructor(context: Context) {
 
-    private val initializationCallbacks: List<InitializationCallback> = ArrayList()
-    private val gazeCallbacks: List<GazeCallback> = ArrayList()
-    private val calibrationCallbacks: List<CalibrationCallback> = ArrayList()
-    private val statusCallbacks: List<StatusCallback> = ArrayList()
-    private val imageCallbacks: List<ImageCallback> = ArrayList()
-    private val userStatusCallbacks: List<UserStatusCallback> = ArrayList()
+    private val initializationCallbacks: MutableList<InitializationCallback> = ArrayList()
+    private val gazeCallbacks: MutableList<GazeCallback> = ArrayList()
+    private val calibrationCallbacks: MutableList<CalibrationCallback> = ArrayList()
+    private val statusCallbacks: MutableList<StatusCallback> = ArrayList()
 
-    private var mInstance: GazeTrackerManager? = null
-
-    private var cameraPreview: WeakReference<TextureView>? = null
-    private var mContext: WeakReference<Context>? = null
-
-    var gazeTracker: GazeTracker? = null
+    private val mContext: WeakReference<Context> = WeakReference(context)
+    private var gazeTracker: GazeTracker? = null
 
     // TODO: change licence key
-    val SEESO_LICENSE_KEY = "dev_1ntzip9admm6g0upynw3gooycnecx0vl93hz8nox"
+    private val SEESO_LICENSE_KEY = "dev_1ntzip9admm6g0upynw3gooycnecx0vl93hz8nox"
 
-    fun makeNewInstance(context: Context?): GazeTrackerManager? {
-        if (GazeTrackerManager.mInstance != null) {
-            GazeTrackerManager.mInstance.deinitGazeTracker()
+
+    companion object {
+        private var instance: GazeTrackerManager? = null
+        fun makeNewInstance(context: Context): GazeTrackerManager? {
+            if (instance != null) {
+                instance!!.deInitGazeTracker()
+            }
+            instance = GazeTrackerManager(context)
+            return instance
         }
-        GazeTrackerManager.mInstance = GazeTrackerManager(context)
-        return GazeTrackerManager.mInstance
     }
 
-    fun getInstance(): GazeTrackerManager? {
-        return GazeTrackerManager.mInstance
+    fun isTracking(): Boolean {
+        return gazeTracker?.isTracking ?: false
     }
 
-    private fun GazeTrackerManager(context: Context) {
-        mContext = WeakReference(context)
+    fun isCalibrating(): Boolean {
+        return gazeTracker?.isCalibrating ?: false
     }
 
-    fun hasGazeTracker(): Boolean {
-        return gazeTracker != null
-    }
-
-    fun initGazeTracker(callback: InitializationCallback?, option: UserStatusOption?) {
+    fun initGazeTracker(callback: InitializationCallback) {
         initializationCallbacks.add(callback)
         GazeTracker.initGazeTracker(
-            mContext!!.get(),
+            mContext.get(),
             SEESO_LICENSE_KEY,
-            this.initializationCallbacks,
-            option
+            callback
+//            UserStatusOption()
         )
     }
 
-    fun deinitGazeTracker() {
-        if (hasGazeTracker()) {
-            GazeTracker.deinitGazeTracker(gazeTracker)
-            gazeTracker = null
-        }
+    fun deInitGazeTracker() {
+        gazeTracker?.also { GazeTracker.deinitGazeTracker(it) }
+        gazeTracker = null
     }
 
     fun setGazeTrackerCallbacks(vararg callbacks: GazeTrackerCallback?) {
         for (callback in callbacks) {
-            if (callback is GazeCallback) {
-                gazeCallbacks.add(callback as GazeCallback?)
-            } else if (callback is CalibrationCallback) {
-                calibrationCallbacks.add(callback as CalibrationCallback?)
-            } else if (callback is ImageCallback) {
-                imageCallbacks.add(callback as ImageCallback?)
-            } else if (callback is StatusCallback) {
-                statusCallbacks.add(callback as StatusCallback?)
-            } else if (callback is UserStatusCallback) {
-                userStatusCallbacks.add(callback as UserStatusCallback?)
+            when (callback) {
+                is GazeCallback -> gazeCallbacks.add(callback)
+                is CalibrationCallback -> calibrationCallbacks.add(callback)
+                is StatusCallback -> statusCallbacks.add(callback)
             }
         }
     }
 
     fun removeCallbacks(vararg callbacks: GazeTrackerCallback?) {
         for (callback in callbacks) {
-            gazeCallbacks.remove(callback)
-            calibrationCallbacks.remove(callback)
-            imageCallbacks.remove(callback)
-            statusCallbacks.remove(callback)
+            when (callback) {
+                is GazeCallback -> gazeCallbacks.remove(callback)
+                is CalibrationCallback -> calibrationCallbacks.remove(callback)
+                is StatusCallback -> statusCallbacks.remove(callback)
+            }
         }
     }
 
+    fun setGazeTrackingFps(fps: Int): Boolean {
+        return gazeTracker?.setTrackingFPS(fps) ?: false
+    }
+
     fun startGazeTracking(): Boolean {
-        if (hasGazeTracker()) {
-            gazeTracker!!.startTracking()
+        gazeTracker?.also {
+            it.startTracking()
             return true
         }
         return false
     }
 
     fun stopGazeTracking(): Boolean {
-        if (isTracking()) {
-            gazeTracker!!.stopTracking()
+        gazeTracker?.also {
+            it.stopTracking()
             return true
         }
         return false
     }
 
+    // Start Calibration
     fun startCalibration(modeType: CalibrationModeType?, criteria: AccuracyCriteria?): Boolean {
-        return if (hasGazeTracker()) {
-            gazeTracker!!.startCalibration(modeType, criteria)
-        } else false
+        return if (isTracking()) {
+            gazeTracker?.startCalibration(modeType, criteria)
+            true
+        } else {
+            false
+        }
     }
 
     fun stopCalibration(): Boolean {
-        if (isCalibrating()) {
-            gazeTracker!!.stopCalibration()
-            return true
-        }
-        return false
-    }
-
-    fun startCollectingCalibrationSamples(): Boolean {
         return if (isCalibrating()) {
-            gazeTracker!!.startCollectSamples()
-        } else false
-    }
-
-    fun isTracking(): Boolean {
-        return if (hasGazeTracker()) {
-            gazeTracker!!.isTracking
-        } else false
-    }
-
-    fun isCalibrating(): Boolean {
-        return if (hasGazeTracker()) {
-            gazeTracker!!.isCalibrating
-        } else false
-    }
-
-    enum class LoadCalibrationResult {
-        SUCCESS, FAIL_DOING_CALIBRATION, FAIL_NO_CALIBRATION_DATA, FAIL_HAS_NO_TRACKER
-    }
-
-    fun loadCalibrationData(): LoadCalibrationResult? {
-        if (!hasGazeTracker()) {
-            return LoadCalibrationResult.FAIL_HAS_NO_TRACKER
-        }
-        val calibrationData: DoubleArray =
-            CalibrationDataStorage.loadCalibrationData(mContext!!.get())
-        return if (calibrationData != null) {
-            if (!gazeTracker!!.setCalibrationData(calibrationData)) {
-                LoadCalibrationResult.FAIL_DOING_CALIBRATION
-            } else {
-                LoadCalibrationResult.SUCCESS
-            }
+            gazeTracker?.stopCalibration()
+            true
         } else {
-            LoadCalibrationResult.FAIL_NO_CALIBRATION_DATA
+            false
         }
     }
 
-    fun setCameraPreview(preview: TextureView) {
-        cameraPreview = WeakReference(preview)
-        if (hasGazeTracker()) {
-            gazeTracker!!.setCameraPreview(preview)
+    // Start Collect calibration sample data
+    fun startCollectionCalibrationSamples(): Boolean {
+        return if (isCalibrating()) {
+            gazeTracker?.startCollectSamples()
+            true
+        } else {
+            false
         }
     }
 
-    fun removeCameraPreview(preview: TextureView) {
-        if (cameraPreview!!.get() === preview) {
-            cameraPreview = null
-            if (hasGazeTracker()) {
-                gazeTracker!!.removeCameraPreview()
-            }
-        }
-    }
-
-    // GazeTracker Callbacks
+    // inner callbacks
     private val initializationCallback =
         InitializationCallback { gazeTracker, initializationErrorType ->
-            setGazeTracker(gazeTracker)
+            this.gazeTracker = gazeTracker
+
             for (initializationCallback in initializationCallbacks) {
                 initializationCallback.onInitialized(gazeTracker, initializationErrorType)
             }
             initializationCallbacks.clear()
-            if (gazeTracker != null) {
-                gazeTracker.setCallbacks(
-                    gazeCallback,
-                    calibrationCallback,
-                    imageCallback,
-                    statusCallback,
-                    userStatusCallback
-                )
-                if (cameraPreview != null) {
-                    gazeTracker.setCameraPreview(cameraPreview.get())
-                }
-            }
-        }
 
-    private val gazeCallback =
-        GazeCallback { gazeInfo ->
-            for (gazeCallback in gazeCallbacks) {
-                gazeCallback.onGaze(gazeInfo)
-            }
+            gazeTracker?.setTrackingFPS(30)
+            gazeTracker?.setCallbacks(
+                gazeCallback,
+                calibrationCallback,
+                statusCallback
+            )
         }
-
-    private val userStatusCallback: UserStatusCallback = object : UserStatusCallback {
-        override fun onAttention(timestampBegin: Long, timestampEnd: Long, attentionScore: Float) {
-            for (userStatusCallback in userStatusCallbacks) {
-                userStatusCallback.onAttention(timestampBegin, timestampEnd, attentionScore)
-            }
-        }
-
-        override fun onBlink(
-            timestamp: Long,
-            isBlinkLeft: Boolean,
-            isBlinkRight: Boolean,
-            isBlink: Boolean,
-            eyeOpenness: Float
-        ) {
-            for (userStatusCallback in userStatusCallbacks) {
-                userStatusCallback.onBlink(
-                    timestamp,
-                    isBlinkLeft,
-                    isBlinkRight,
-                    isBlink,
-                    eyeOpenness
-                )
-            }
-        }
-
-        override fun onDrowsiness(timestamp: Long, isDrowsiness: Boolean) {
-            for (userStatusCallback in userStatusCallbacks) {
-                userStatusCallback.onDrowsiness(timestamp, isDrowsiness)
-            }
+    private val gazeCallback = GazeCallback { gazeInfo ->
+        for (gazeCallback in gazeCallbacks) {
+            gazeCallback.onGaze(gazeInfo)
         }
     }
-
     private val calibrationCallback: CalibrationCallback = object : CalibrationCallback {
-        override fun onCalibrationProgress(v: Float) {
+        override fun onCalibrationProgress(progress: Float) {
             for (calibrationCallback in calibrationCallbacks) {
-                calibrationCallback.onCalibrationProgress(v)
+                calibrationCallback.onCalibrationProgress(progress)
             }
         }
 
-        override fun onCalibrationNextPoint(v: Float, v1: Float) {
+        override fun onCalibrationNextPoint(x: Float, y: Float) {
             for (calibrationCallback in calibrationCallbacks) {
-                calibrationCallback.onCalibrationNextPoint(v, v1)
+                calibrationCallback.onCalibrationNextPoint(x, y)
             }
         }
 
-        override fun onCalibrationFinished(doubles: DoubleArray) {
-            CalibrationDataStorage.saveCalibrationData(mContext!!.get(), doubles)
+        override fun onCalibrationFinished(calibrationData: DoubleArray) {
+//            CalibrationDataStorage.saveCalibrationData(mContext.get(), calibrationData)
             for (calibrationCallback in calibrationCallbacks) {
-                calibrationCallback.onCalibrationFinished(doubles)
+                calibrationCallback.onCalibrationFinished(calibrationData)
             }
         }
     }
-
-    private val imageCallback =
-        ImageCallback { l, bytes ->
-            for (imageCallback in imageCallbacks) {
-                imageCallback.onImage(l, bytes)
-            }
-        }
-
     private val statusCallback: StatusCallback = object : StatusCallback {
         override fun onStarted() {
             for (statusCallback in statusCallbacks) {
@@ -275,9 +180,4 @@ public class GazeTrackerManager {
             }
         }
     }
-
-    private fun setGazeTracker(gazeTracker: GazeTracker) {
-        this.gazeTracker = gazeTracker
-    }
-
 }
