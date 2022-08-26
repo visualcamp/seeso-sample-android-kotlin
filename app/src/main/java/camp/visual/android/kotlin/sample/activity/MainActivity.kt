@@ -90,7 +90,6 @@ class MainActivity : AppCompatActivity() {
         // Button
         initButtonEvent()
 
-
         // Permission
         checkPermission()
     }
@@ -123,8 +122,10 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!hasPermissions(permissions)) {
                 requestPermissions(permissions, permissionCode)
+                return
             }
         }
+        checkPermissionGranted(true)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -152,12 +153,12 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             permissionCode -> if (grantResults.isNotEmpty()) {
-                checkPermission(grantResults.first() == PackageManager.PERMISSION_GRANTED)
+                checkPermissionGranted(grantResults.first() == PackageManager.PERMISSION_GRANTED)
             }
         }
     }
 
-    private fun checkPermission(isGranted: Boolean) {
+    private fun checkPermissionGranted(isGranted: Boolean) {
         if (isGranted) permissionGranted() else finish()
     }
 

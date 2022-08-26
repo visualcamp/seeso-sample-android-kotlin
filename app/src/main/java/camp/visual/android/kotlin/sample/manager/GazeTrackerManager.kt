@@ -6,6 +6,7 @@ import camp.visual.gazetracker.callback.*
 import camp.visual.gazetracker.constant.AccuracyCriteria
 import camp.visual.gazetracker.constant.CalibrationModeType
 import camp.visual.gazetracker.constant.StatusErrorType
+import camp.visual.gazetracker.constant.UserStatusOption
 import java.lang.ref.WeakReference
 
 class GazeTrackerManager private constructor(context: Context) {
@@ -25,9 +26,7 @@ class GazeTrackerManager private constructor(context: Context) {
     companion object {
         private var instance: GazeTrackerManager? = null
         fun makeNewInstance(context: Context): GazeTrackerManager? {
-            if (instance != null) {
-                instance!!.deInitGazeTracker()
-            }
+            instance.also { it?.deInitGazeTracker() }
             instance = GazeTrackerManager(context)
             return instance
         }
@@ -46,8 +45,8 @@ class GazeTrackerManager private constructor(context: Context) {
         GazeTracker.initGazeTracker(
             mContext.get(),
             SEESO_LICENSE_KEY,
-            callback
-//            UserStatusOption()
+            initializationCallback,
+            UserStatusOption()
         )
     }
 
@@ -129,7 +128,6 @@ class GazeTrackerManager private constructor(context: Context) {
     private val initializationCallback =
         InitializationCallback { gazeTracker, initializationErrorType ->
             this.gazeTracker = gazeTracker
-
             for (initializationCallback in initializationCallbacks) {
                 initializationCallback.onInitialized(gazeTracker, initializationErrorType)
             }

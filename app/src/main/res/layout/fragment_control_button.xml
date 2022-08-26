@@ -36,7 +36,7 @@
                 android:id="@+id/btn_previous"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="right|top"
+                android:layout_gravity="top|left"
                 android:background="@drawable/shape_circle_gray"
                 android:rotationY="180"
                 app:srcCompat="@android:drawable/ic_media_play" />
