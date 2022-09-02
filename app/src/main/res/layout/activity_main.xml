@@ -3,469 +3,644 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/total_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:windowSoftInputMode="adjustResize"
+        tools:context=".activity.MainActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F5F5F5"
-            tools:context=".activity.MainActivity">
+            android:background="#F5F5F5">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/all_white"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="20dp"
-                android:text="SeeSo Sample"
-                android:textColor="@color/all_gray900"
-                android:textSize="35sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/title_separator"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/all_gray400"
-                app:layout_constraintTop_toBottomOf="@id/title" />
+                android:layout_height="match_parent"
+                android:background="#F5F5F5">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/title_separator">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/title_guide_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="15dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:maxLines="2"
-                        android:text="Follow steps below to experience gaze tracking."
-                        android:textColor="#1D1D1D"
-                        android:textSize="17sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/upper_init_button_guide_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#F5F5F5"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="0dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="5dp"
-                        android:maxLines="2"
-                        android:text="You need to init GazeTracker first."
-                        android:textColor="#a0a0a0"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/init_gaze_tracker_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/upper_init_button_guide_container">
-
-                    <TextView
-                        android:id="@+id/gaze_tracker_init"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
-                        android:text="Initialize GazeTracker"
-                        android:textColor="#1D1D1D"
-                        android:textSize="17sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/option_container"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/title_text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@color/all_white"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="0dp"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <View
-                        android:id="@+id/option_separator"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#F5F5F5"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/with_option"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:text="with User Option"
-                        android:textColor="#1D1D1D"
-                        android:textSize="17sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/option_separator" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switch_user_option"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:thumbTint="@color/setting_switch_track_default"
-                        app:trackTint="@color/all_gray400" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/guide_user_option"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#F5F5F5"
                     android:paddingHorizontal="10dp"
-                    android:paddingVertical="0dp">
+                    android:paddingVertical="20dp"
+                    android:text="SeeSo Sample"
+                    android:textColor="@color/all_gray900"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="5dp"
-                        android:maxLines="2"
-                        android:text="You can init GazeTracker With UserOption!\n(need to restart GazeTracker)"
-                        android:textColor="#a0a0a0"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:id="@+id/title_separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/all_gray400"
+                    app:layout_constraintTop_toBottomOf="@id/title_text" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/upper_start_tracking"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#F5F5F5"
-                    android:paddingHorizontal="0dp"
-                    android:paddingVertical="0dp">
-
-                    <TextView
-                        android:id="@+id/guide_gaze_track"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:maxLines="2"
-                        android:paddingHorizontal="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="Now You can track your gaze!"
-                        android:textColor="#a0a0a0"
-                        android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    android:background="#FFFFFF"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/title_separator">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/start_tracking_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/all_white"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="10dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/guide_gaze_track">
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="15dp">
 
                         <TextView
-                            android:id="@+id/start_tracking"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginVertical="5dp"
-                            android:text="Start Tracking"
+                            android:maxLines="2"
+                            android:text="Follow steps below to experience gaze tracking."
                             android:textColor="#1D1D1D"
                             android:textSize="17sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/upper_calibration_guide_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#F5F5F5"
-                    android:paddingHorizontal="0dp"
-                    android:paddingVertical="0dp">
-
-                    <TextView
-                        android:id="@+id/guide_calibration"
-                        android:layout_width="0dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/permission_container"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:maxLines="2"
-                        android:paddingHorizontal="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="And also you can improve accuracy through calibration."
-                        android:textColor="#a0a0a0"
-                        android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:background="#F5F5F5"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp">
+
+                        <TextView
+                            android:id="@+id/guide_permission"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:maxLines="2"
+                            android:paddingLeft="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="We must have camera permission!"
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFF"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/guide_permission">
+
+                            <TextView
+                                android:id="@+id/request_permission_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Click here to request camera permission"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/start_calibration_container"
+                        android:id="@+id/upper_init_button_guide_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F5F5F5"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/guide_init_gaze_tracker"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:maxLines="2"
+                            android:paddingHorizontal="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="You need to init GazeTracker first."
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/init_gaze_tracker_button_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/all_white"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/guide_init_gaze_tracker">
+
+                            <TextView
+                                android:id="@+id/init_gaze_tracker_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Initialize GazeTracker"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/init_user_option_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/all_white"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="0dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/init_gaze_tracker_button_container">
+
+                            <View
+                                android:id="@+id/init_user_option_separator"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="15dp"
+                                android:layout_marginVertical="10dp"
+                                android:text="with User Option"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/init_user_option_separator" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+
+                                android:id="@+id/switch_init_user_option"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:trackTintMode="src_atop" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:id="@+id/guide_init_with_user_option"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:maxLines="2"
+                            android:paddingHorizontal="10dp"
+                            android:text="You can init GazeTracker With UserOption!\n(need to restart GazeTracker)"
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/init_user_option_container" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/upper_start_tracking_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F5F5F5"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/guide_start_gaze_tracking"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:maxLines="2"
+                            android:paddingHorizontal="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Now You can track your gaze!"
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/start_tracking_button_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/all_white"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/guide_start_gaze_tracking">
+
+                            <TextView
+                                android:id="@+id/start_tracking_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Start Tracking"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/calibration_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F5F5F5"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/guide_calibration"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:maxLines="2"
+                            android:paddingHorizontal="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="And also you can improve accuracy through calibration."
+                            android:textColor="#a0a0a0"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/all_white"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/guide_calibration">
+
+                            <TextView
+                                android:id="@+id/start_calibration_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Start Calibration"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/calibration_separator1"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/start_calibration_button" />
+
+                            <TextView
+                                android:id="@+id/text_calibration_type"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Calibration Type"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/calibration_separator1" />
+
+                            <com.creageek.segmentedbutton.SegmentedButton
+                                android:id="@+id/segmented_calibration_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:orientation="horizontal"
+                                app:borderColor="@color/all_gray700"
+                                app:layout_constraintBottom_toTopOf="@id/calibration_separator2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/text_calibration_type"
+                                app:rippleColorChecked="@color/all_gray700"
+                                app:segmentColorChecked="@color/all_gray700"
+                                app:spreadType="evenly"
+                                app:textColor="@color/all_gray700">
+
+                                <RadioButton
+                                    android:id="@+id/one_point"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="ONE_POINT" />
+
+                                <RadioButton
+                                    android:id="@+id/five_point"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="FIVE_POINT" />
+                            </com.creageek.segmentedbutton.SegmentedButton>
+
+                            <View
+                                android:id="@+id/calibration_separator2"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/segmented_calibration_type" />
+
+                            <TextView
+                                android:id="@+id/save_calibration_data_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Save Calibration Data to Local"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/calibration_separator2" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:background="@color/all_gray200" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/user_option_data_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/all_white"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="10dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/guide_calibration">
 
                         <TextView
-                            android:id="@+id/start_Calibration"
+                            android:id="@+id/user_option_title"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="5dp"
-                            android:text="Start Calibration"
+                            android:paddingBottom="20dp"
+                            android:text="User Options Info"
                             android:textColor="#1D1D1D"
                             android:textSize="17sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <View
-                            android:id="@+id/calibration_separator1"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginVertical="10dp"
-                            android:background="#F5F5F5"
-                            app:layout_constraintTop_toBottomOf="@id/start_Calibration" />
-
-                        <TextView
-                            android:id="@+id/calibration_type"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="10dp"
-                            android:text="Calibration Type"
-                            android:textColor="#1D1D1D"
-                            android:textSize="17sp"
+                        <ImageButton
+                            android:id="@+id/user_option_expand_button"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="1dp"
+                            android:adjustViewBounds="true"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:padding="1dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/all_more_20px"
+                            app:layout_constraintBottom_toTopOf="@id/user_option_expand_container"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/calibration_separator1" />
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_weight="1" />
 
-                        <com.creageek.segmentedbutton.SegmentedButton
-                            android:id="@+id/courses"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/user_option_expand_container"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:orientation="horizontal"
-                            app:borderColor="@color/all_gray700"
-                            app:layout_constraintBottom_toTopOf="@id/calibration_separator2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/calibration_type"
-                            app:rippleColorChecked="@color/all_gray700"
-                            app:segmentColorChecked="@color/all_gray700"
-                            app:spreadType="evenly"
-                            app:textColor="@color/all_gray700">
+                            android:layout_height="match_parent"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="0dp"
 
-                            <RadioButton
-                                android:id="@+id/one_point"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="ONE_POINT" />
-
-                            <RadioButton
-                                android:id="@+id/five_point"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="FIVE_POINT" />
-                        </com.creageek.segmentedbutton.SegmentedButton>
-
-                        <View
-                            android:id="@+id/calibration_separator2"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginVertical="10dp"
-                            android:background="#F5F5F5"
-                            app:layout_constraintTop_toBottomOf="@id/courses" />
-
-                        <TextView
-                            android:id="@+id/calibration_save"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="10dp"
-                            android:text="Save Calibration Data to Local"
-                            android:textColor="#1D1D1D"
-                            android:textSize="17sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/calibration_separator2" />
+                            app:layout_constraintTop_toBottomOf="@id/user_option_title">
+
+
+                            <TextView
+                                android:id="@+id/conspirancy"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Conspirancy"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/user_option_separator1"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/conspirancy" />
+
+                            <TextView
+                                android:id="@+id/blink_state"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Blink State"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator1" />
+
+                            <View
+                                android:id="@+id/user_option_separator2"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/blink_state" />
+
+                            <TextView
+                                android:id="@+id/sleepy"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Sleepy?"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator2" />
+
+                            <View
+                                android:id="@+id/user_option_separator3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/sleepy" />
+
+                            <TextView
+                                android:id="@+id/detail_info"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="Show Detail Option"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator3" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/switch_user_option_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator3" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:background="@color/all_gray200" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loading_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#D0000000"
+            android:visibility="gone">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/user_option_container"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/all_white"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/guide_calibration">
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/user_option_title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
-                        android:paddingBottom="20dp"
-                        android:text="User Options Info"
-                        android:textColor="#1D1D1D"
-                        android:textSize="17sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/conspirancy"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
-                        android:paddingStart="20dp"
-                        android:text="Conspirancy"
-                        android:textColor="#1D1D1D"
-                        android:textSize="17sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/user_option_title" />
-
-                    <View
-                        android:id="@+id/user_option_separator1"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="10dp"
-                        android:background="#F5F5F5"
-                        app:layout_constraintTop_toBottomOf="@id/conspirancy" />
-
-                    <TextView
-                        android:id="@+id/blink_state"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:paddingStart="20dp"
-                        android:text="Blink State"
-                        android:textColor="#1D1D1D"
-                        android:textSize="17sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/user_option_separator1" />
-
-                    <View
-                        android:id="@+id/user_option_separator2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="10dp"
-                        android:background="#F5F5F5"
-                        app:layout_constraintTop_toBottomOf="@id/blink_state" />
-
-                    <TextView
-                        android:id="@+id/sleepy"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:paddingStart="20dp"
-                        android:text="Sleepy?"
-                        android:textColor="#1D1D1D"
-                        android:textSize="17sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/user_option_separator2" />
-
-                    <View
-                        android:id="@+id/user_option_separator3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="10dp"
-                        android:background="#F5F5F5"
-                        app:layout_constraintTop_toBottomOf="@id/sleepy" />
-
-                    <TextView
-                        android:id="@+id/detail_info"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:paddingStart="20dp"
-                        android:text="Show Detail Option"
-                        android:textColor="#1D1D1D"
-                        android:textSize="17sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/user_option_separator3" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switch_user_option_detail"
+                        android:id="@+id/loading_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/user_option_separator3"
-                        app:thumbTint="@color/setting_switch_track_default"
-                        app:trackTint="@color/all_gray400" />
+                        android:layout_gravity="center"
+                        android:paddingBottom="15dp"
+                        android:text="Initializing Gaze Tracker..."
+                        android:textAlignment="center"
+                        android:textColor="@color/all_white"
+                        android:textSize="24sp" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ProgressBar
+                        android:id="@+id/loading_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+                </LinearLayout>
             </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:id="@+id/gaze_point_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <com.mikhaellopez.circleview.CircleView
+                android:id="@+id/gaze_point_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="40dp"
+                app:cv_color="@color/all_red" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/calibration_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#D0000000">
+
+            <FrameLayout
+                android:id="@+id/calibration_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="40dp">
+                <ProgressBar
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/calibration_percent_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="40%"
+                    android:textColor="@color/all_white"
+                    android:textSize="18sp"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

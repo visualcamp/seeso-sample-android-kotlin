@@ -9,12 +9,21 @@ import camp.visual.gazetracker.constant.StatusErrorType
 import camp.visual.gazetracker.constant.UserStatusOption
 import java.lang.ref.WeakReference
 
+enum class SeeSoInitializeState {
+    default, initializing, initialized
+}
+
 class GazeTrackerManager private constructor(context: Context) {
 
     private val initializationCallbacks: MutableList<InitializationCallback> = ArrayList()
     private val gazeCallbacks: MutableList<GazeCallback> = ArrayList()
     private val calibrationCallbacks: MutableList<CalibrationCallback> = ArrayList()
     private val statusCallbacks: MutableList<StatusCallback> = ArrayList()
+
+    // state control
+    var isInitWithUserOption = false
+    var initializeState: SeeSoInitializeState = SeeSoInitializeState.default
+
 
     private val mContext: WeakReference<Context> = WeakReference(context)
     private var gazeTracker: GazeTracker? = null
@@ -40,19 +49,29 @@ class GazeTrackerManager private constructor(context: Context) {
         return gazeTracker?.isCalibrating ?: false
     }
 
-    fun initGazeTracker(callback: InitializationCallback) {
+    fun initGazeTracker(callback: InitializationCallback, isInitWithUserOption: Boolean) {
         initializationCallbacks.add(callback)
+        var userOption: UserStatusOption? = null
+        if (isInitWithUserOption) {
+            userOption = UserStatusOption()
+            userOption.useAll()
+            this.isInitWithUserOption = true
+        }
+        initializeState = SeeSoInitializeState.initializing
+
         GazeTracker.initGazeTracker(
             mContext.get(),
             SEESO_LICENSE_KEY,
             initializationCallback,
-            UserStatusOption()
+            userOption
         )
     }
 
     fun deInitGazeTracker() {
         gazeTracker?.also { GazeTracker.deinitGazeTracker(it) }
         gazeTracker = null
+        isInitWithUserOption = false
+        initializeState = SeeSoInitializeState.default
     }
 
     fun setGazeTrackerCallbacks(vararg callbacks: GazeTrackerCallback?) {
@@ -127,6 +146,7 @@ class GazeTrackerManager private constructor(context: Context) {
     // inner callbacks
     private val initializationCallback =
         InitializationCallback { gazeTracker, initializationErrorType ->
+            initializeState = SeeSoInitializeState.initialized
             this.gazeTracker = gazeTracker
             for (initializationCallback in initializationCallbacks) {
                 initializationCallback.onInitialized(gazeTracker, initializationErrorType)
