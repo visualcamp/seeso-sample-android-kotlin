@@ -3,10 +3,8 @@ package camp.visual.android.kotlin.sample.manager
 import android.content.Context
 import camp.visual.gazetracker.GazeTracker
 import camp.visual.gazetracker.callback.*
-import camp.visual.gazetracker.constant.AccuracyCriteria
-import camp.visual.gazetracker.constant.CalibrationModeType
-import camp.visual.gazetracker.constant.StatusErrorType
-import camp.visual.gazetracker.constant.UserStatusOption
+import camp.visual.gazetracker.constant.*
+import camp.visual.gazetracker.gaze.GazeInfo
 import java.lang.ref.WeakReference
 
 enum class SeeSoInitializeState {
@@ -16,9 +14,10 @@ enum class SeeSoInitializeState {
 class GazeTrackerManager private constructor(context: Context) {
 
     private val initializationCallbacks: MutableList<InitializationCallback> = ArrayList()
+    private val statusCallbacks: MutableList<StatusCallback> = ArrayList()
     private val gazeCallbacks: MutableList<GazeCallback> = ArrayList()
     private val calibrationCallbacks: MutableList<CalibrationCallback> = ArrayList()
-    private val statusCallbacks: MutableList<StatusCallback> = ArrayList()
+    private val userStatusCallbacks: MutableList<UserStatusCallback> = ArrayList()
 
     // state control
     var isInitWithUserOption = false
@@ -80,6 +79,7 @@ class GazeTrackerManager private constructor(context: Context) {
                 is GazeCallback -> gazeCallbacks.add(callback)
                 is CalibrationCallback -> calibrationCallbacks.add(callback)
                 is StatusCallback -> statusCallbacks.add(callback)
+                is UserStatusCallback -> userStatusCallbacks.add(callback)
             }
         }
     }
@@ -90,6 +90,7 @@ class GazeTrackerManager private constructor(context: Context) {
                 is GazeCallback -> gazeCallbacks.remove(callback)
                 is CalibrationCallback -> calibrationCallbacks.remove(callback)
                 is StatusCallback -> statusCallbacks.remove(callback)
+                is UserStatusCallback -> userStatusCallbacks.remove(callback)
             }
         }
     }
@@ -144,12 +145,12 @@ class GazeTrackerManager private constructor(context: Context) {
     }
 
     // inner callbacks
-    private val initializationCallback =
-        InitializationCallback { gazeTracker, initializationErrorType ->
+    private val initializationCallback: InitializationCallback = object : InitializationCallback {
+        override fun onInitialized(tracker: GazeTracker?, error: InitializationErrorType?) {
             initializeState = SeeSoInitializeState.initialized
-            this.gazeTracker = gazeTracker
+            gazeTracker = tracker
             for (initializationCallback in initializationCallbacks) {
-                initializationCallback.onInitialized(gazeTracker, initializationErrorType)
+                initializationCallback.onInitialized(gazeTracker, error)
             }
             initializationCallbacks.clear()
 
@@ -157,12 +158,16 @@ class GazeTrackerManager private constructor(context: Context) {
             gazeTracker?.setCallbacks(
                 gazeCallback,
                 calibrationCallback,
-                statusCallback
+                statusCallback,
+                userStatusCallback
             )
         }
-    private val gazeCallback = GazeCallback { gazeInfo ->
-        for (gazeCallback in gazeCallbacks) {
-            gazeCallback.onGaze(gazeInfo)
+    }
+    private val gazeCallback = object : GazeCallback {
+        override fun onGaze(gazeInfo: GazeInfo?) {
+            for (gazeCallback in gazeCallbacks) {
+                gazeCallback.onGaze(gazeInfo)
+            }
         }
     }
     private val calibrationCallback: CalibrationCallback = object : CalibrationCallback {
@@ -179,7 +184,6 @@ class GazeTrackerManager private constructor(context: Context) {
         }
 
         override fun onCalibrationFinished(calibrationData: DoubleArray) {
-//            CalibrationDataStorage.saveCalibrationData(mContext.get(), calibrationData)
             for (calibrationCallback in calibrationCallbacks) {
                 calibrationCallback.onCalibrationFinished(calibrationData)
             }
@@ -195,6 +199,37 @@ class GazeTrackerManager private constructor(context: Context) {
         override fun onStopped(statusErrorType: StatusErrorType) {
             for (statusCallback in statusCallbacks) {
                 statusCallback.onStopped(statusErrorType)
+            }
+        }
+    }
+    private val userStatusCallback: UserStatusCallback = object : UserStatusCallback {
+        override fun onAttention(timestampBegin: Long, timestampEnd: Long, score: Float) {
+            for (userStatusCallback in userStatusCallbacks) {
+                userStatusCallback.onAttention(timestampBegin, timestampEnd, score)
+            }
+        }
+
+        override fun onBlink(
+            timestamp: Long,
+            isBlinkLeft: Boolean,
+            isBlinkRight: Boolean,
+            isBlink: Boolean,
+            eyeOpenness: Float
+        ) {
+            for (userStatusCallback in userStatusCallbacks) {
+                userStatusCallback.onBlink(
+                    timestamp,
+                    isBlinkLeft,
+                    isBlinkRight,
+                    isBlink,
+                    eyeOpenness
+                )
+            }
+        }
+
+        override fun onDrowsiness(timestamp: Long, isDrowsiness: Boolean) {
+            for (userStatusCallback in userStatusCallbacks) {
+                userStatusCallback.onDrowsiness(timestamp, isDrowsiness)
             }
         }
     }

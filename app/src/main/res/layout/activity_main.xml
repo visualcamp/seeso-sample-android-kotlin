@@ -125,8 +125,7 @@
                         android:layout_height="wrap_content"
                         android:background="#F5F5F5"
                         android:paddingHorizontal="0dp"
-                        android:paddingVertical="0dp"
-                        android:visibility="gone">
+                        android:paddingVertical="0dp">
 
                         <TextView
                             android:id="@+id/guide_init_gaze_tracker"
@@ -224,7 +223,7 @@
                             android:text="You can init GazeTracker With UserOption!\n(need to restart GazeTracker)"
                             android:textColor="#a0a0a0"
                             android:textSize="15sp"
-                            android:visibility="gone"
+
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -237,8 +236,7 @@
                         android:layout_height="wrap_content"
                         android:background="#F5F5F5"
                         android:paddingHorizontal="0dp"
-                        android:paddingVertical="0dp"
-                        android:visibility="gone">
+                        android:paddingVertical="0dp">
 
                         <TextView
                             android:id="@+id/guide_start_gaze_tracking"
@@ -290,8 +288,7 @@
                         android:layout_height="wrap_content"
                         android:background="#F5F5F5"
                         android:paddingHorizontal="0dp"
-                        android:paddingVertical="0dp"
-                        android:visibility="gone">
+                        android:paddingVertical="0dp">
 
                         <TextView
                             android:id="@+id/guide_calibration"
@@ -397,6 +394,7 @@
                                 android:text="Save Calibration Data to Local"
                                 android:textColor="#1D1D1D"
                                 android:textSize="17sp"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -411,13 +409,13 @@
                         android:background="@color/all_gray200" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/user_option_data_container"
+                        android:id="@+id/user_status_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/all_white"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="10dp"
-                        android:visibility="gone"
+
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -436,27 +434,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageButton
-                            android:id="@+id/user_option_expand_button"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="1dp"
-                            android:layout_marginTop="1dp"
-                            android:layout_marginRight="1dp"
-                            android:layout_marginBottom="1dp"
-                            android:adjustViewBounds="true"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:padding="1dp"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/all_more_20px"
-                            app:layout_constraintBottom_toTopOf="@id/user_option_expand_container"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_weight="1"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_weight="1" />
-
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/user_option_expand_container"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:paddingStart="10dp"
@@ -469,15 +447,27 @@
 
 
                             <TextView
-                                android:id="@+id/conspirancy"
+                                android:id="@+id/attention_text"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginVertical="5dp"
-                                android:text="Conspirancy"
+                                android:text="Attention score of recent 30s"
                                 android:textColor="#1D1D1D"
                                 android:textSize="17sp"
-                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/attention_score"
                                 app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/attention_score"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="30%"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/user_option_separator1"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <View
@@ -486,18 +476,30 @@
                                 android:layout_height="1dp"
                                 android:layout_marginVertical="10dp"
                                 android:background="#F5F5F5"
-                                app:layout_constraintTop_toBottomOf="@id/conspirancy" />
+                                app:layout_constraintTop_toBottomOf="@id/attention_text" />
 
                             <TextView
-                                android:id="@+id/blink_state"
+                                android:id="@+id/blink_state_text"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginVertical="10dp"
                                 android:text="Blink State"
                                 android:textColor="#1D1D1D"
                                 android:textSize="17sp"
-                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator2"
                                 app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator1" />
+
+                            <TextView
+                                android:id="@+id/blink_state"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="ㅇ_ㅇ"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator2"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/user_option_separator1" />
 
                             <View
@@ -506,18 +508,30 @@
                                 android:layout_height="1dp"
                                 android:layout_marginVertical="10dp"
                                 android:background="#F5F5F5"
-                                app:layout_constraintTop_toBottomOf="@id/blink_state" />
+                                app:layout_constraintTop_toBottomOf="@id/blink_state_text" />
 
                             <TextView
-                                android:id="@+id/sleepy"
+                                android:id="@+id/sleepy_text"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginVertical="10dp"
-                                android:text="Sleepy?"
+                                android:text="Do I look seepy now?"
                                 android:textColor="#1D1D1D"
                                 android:textSize="17sp"
-                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator3"
                                 app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/user_option_separator2" />
+
+                            <TextView
+                                android:id="@+id/sleepy_state"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="nope"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator3"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/user_option_separator2" />
 
                             <View
@@ -526,10 +540,9 @@
                                 android:layout_height="1dp"
                                 android:layout_marginVertical="10dp"
                                 android:background="#F5F5F5"
-                                app:layout_constraintTop_toBottomOf="@id/sleepy" />
+                                app:layout_constraintTop_toBottomOf="@id/sleepy_text" />
 
                             <TextView
-                                android:id="@+id/detail_info"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginVertical="10dp"
@@ -537,7 +550,6 @@
                                 android:textColor="#1D1D1D"
                                 android:textSize="17sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/user_option_separator3" />
 
@@ -552,6 +564,224 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/detail_user_status_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/user_status_container">
+
+                        <View
+                            android:id="@+id/detail_status_separator"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:background="@color/all_gray200"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="15dp"
+
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/detail_status_separator">
+
+
+                            <TextView
+                                android:id="@+id/avg_attention_score_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:text="Attention score of recent 30s"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator1"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/avg_attention_score"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="8.832"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator1"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/avg_attention_score_text" />
+
+                            <TextView
+                                android:id="@+id/attention_check_count_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="attention check count"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator2"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator1" />
+
+                            <TextView
+                                android:id="@+id/attention_check_count"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="149"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator1" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator2"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/attention_check_count_text" />
+
+                            <TextView
+                                android:id="@+id/left_only_blink_count_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="left only blink count"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator3"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator2" />
+
+                            <TextView
+                                android:id="@+id/left_only_blink_count"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="0"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toTopOf="@id/detail_user_status_separator3"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator2" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/left_only_blink_count_text" />
+
+                            <TextView
+                                android:id="@+id/right_only_blink_count_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="right only blink count"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/detail_user_status_separator4"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator3" />
+
+                            <TextView
+                                android:id="@+id/right_only_blink_count"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="0"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/detail_user_status_separator4"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator3" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator4"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/right_only_blink_count_text" />
+
+                            <TextView
+                                android:id="@+id/both_blink_count_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="both blink count"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/detail_user_status_separator5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator4" />
+
+                            <TextView
+                                android:id="@+id/both_blink_count"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="0"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="@id/detail_user_status_separator5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator4" />
+
+                            <View
+                                android:id="@+id/detail_user_status_separator5"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#F5F5F5"
+                                app:layout_constraintTop_toBottomOf="@id/both_blink_count_text" />
+
+                            <TextView
+                                android:id="@+id/average_eye_openness_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:text="average eye Openness"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator5" />
+
+                            <TextView
+                                android:id="@+id/average_eye_openness"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="0"
+                                android:textColor="#1D1D1D"
+                                android:textSize="17sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator5" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -616,7 +846,8 @@
             android:id="@+id/calibration_view_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#D0000000">
+            android:background="#D0000000"
+            android:visibility="gone">
 
             <FrameLayout
                 android:id="@+id/calibration_icon"
@@ -624,18 +855,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="40dp">
+
                 <ProgressBar
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
+
                 <TextView
                     android:id="@+id/calibration_percent_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="40%"
                     android:textColor="@color/all_white"
-                    android:textSize="18sp"
-                    android:layout_gravity="center"/>
+                    android:textSize="18sp" />
             </FrameLayout>
 
         </FrameLayout>

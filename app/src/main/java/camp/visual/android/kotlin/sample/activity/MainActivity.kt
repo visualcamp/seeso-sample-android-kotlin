@@ -19,16 +19,14 @@ import camp.visual.android.kotlin.sample.databinding.ActivityMainBinding
 import camp.visual.android.kotlin.sample.manager.GazeTrackerManager
 import camp.visual.android.kotlin.sample.manager.SeeSoInitializeState
 import camp.visual.gazetracker.GazeTracker
-import camp.visual.gazetracker.callback.CalibrationCallback
-import camp.visual.gazetracker.callback.GazeCallback
-import camp.visual.gazetracker.callback.InitializationCallback
-import camp.visual.gazetracker.callback.StatusCallback
+import camp.visual.gazetracker.callback.*
 import camp.visual.gazetracker.constant.AccuracyCriteria
 import camp.visual.gazetracker.constant.CalibrationModeType
 import camp.visual.gazetracker.constant.InitializationErrorType
 import camp.visual.gazetracker.constant.StatusErrorType
 import camp.visual.gazetracker.gaze.GazeInfo
 import camp.visual.gazetracker.state.ScreenState
+import camp.visual.gazetracker.util.ViewLayoutChecker
 
 
 @SuppressLint("ClickableViewAccessibility")
@@ -48,6 +46,10 @@ class MainActivity : AppCompatActivity() {
     // Thread control
     private val backgroundThread: HandlerThread = HandlerThread("background")
     private var backgroundHandler: Handler? = null
+
+    // Screen Offset
+    private var offsets: IntArray = IntArray(2)
+    private val viewLayoutChecker: ViewLayoutChecker = ViewLayoutChecker()
 
     var isGazeTrackingStarting = false
 
@@ -72,11 +74,26 @@ class MainActivity : AppCompatActivity() {
             gazeCallback,
             calibrationCallback,
             statusCallback,
+            userStatusCallback
         )
     }
+
+    override fun onResume() {
+        super.onResume()
+        setOffsetOfView()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         releaseHandler()
+    }
+
+    // View
+    private fun setOffsetOfView() {
+        viewLayoutChecker.setOverlayView(binding.totalContainer as View) { x, y ->
+            offsets[0] = x
+            offsets[1] = y
+        }
     }
 
     // Thread control
@@ -102,6 +119,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun addTouchListenerToViews() {
         binding.apply {
+            calibrationContainer.apply {
+            }
+            calibrationIcon.apply {
+                pivotX = (width / 2).toFloat()
+                pivotY = (height / 2).toFloat()
+            }
             requestPermissionButton.setOnTouchListener { _, _ ->
                 requestPermissions(permissions, permissionCode)
                 true
@@ -142,6 +165,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 true
+            }
+
+            switchUserOptionDetail.setOnCheckedChangeListener { _, isChecked ->
+                 if (isChecked) {
+
+                }
             }
         }
 
@@ -251,6 +280,14 @@ class MainActivity : AppCompatActivity() {
                     if (isTracking) View.VISIBLE else View.GONE
                 calibrationViewContainer.visibility = if (isCalibrating) View.VISIBLE else View.GONE
 
+                // ------ user options info ------ //
+                userStatusContainer.visibility =
+                    if (isTracking && initializedWithOption) View.VISIBLE else View.GONE
+                if (initializedWithOption) {
+                    attentionScore.text = ""
+                    blinkState.text = ""
+                    sleepyState.text = ""
+                }
             }
         }
     }
@@ -323,7 +360,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startCalibration() {
-        gazeTrackerManager?.startCalibration(CalibrationModeType.DEFAULT, AccuracyCriteria.DEFAULT)
+        val mode =
+            if (binding.onePoint.isChecked) CalibrationModeType.ONE_POINT else CalibrationModeType.FIVE_POINT
+        gazeTrackerManager?.startCalibration(mode, AccuracyCriteria.DEFAULT)
         updateViewState()
     }
 
@@ -347,44 +386,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private val gazeCallback = object : GazeCallback {
-        override fun onGaze(gazeInfo: GazeInfo) {
-            if (isGazeTrackingStarting) {
-                isGazeTrackingStarting = false
-                updateViewState()
-            }
-            if (gazeTrackerManager?.isCalibrating() == false) {
-                runOnUiThread {
-                    showGazePoint(gazeInfo.x, gazeInfo.y, gazeInfo.screenState)
-                    binding.gazePointView.apply {
-                        x = gazeInfo.x - 20
-                        y = gazeInfo.y - 20
-                    }
-                }
-            }
-        }
-    }
-    private val calibrationCallback = object : CalibrationCallback {
-        override fun onCalibrationProgress(progress: Float) {
-            runOnUiThread {
-                binding.calibrationPercentText.text = "${(progress * 100).toInt()}%"
-            }
-        }
-
-        override fun onCalibrationNextPoint(x: Float, y: Float) {
-            binding.calibrationIcon.x = x - 25
-            binding.calibrationIcon.y = y - 25
-
-            backgroundHandler?.postDelayed({
-                startCollectSamples()
-            }, 1000)
-        }
-
-        override fun onCalibrationFinished(calibrationData: DoubleArray?) {
-            updateViewState()
-        }
-    }
-
     private val statusCallback = object : StatusCallback {
         override fun onStarted() {
             // will be called after gaze tracking started
@@ -400,8 +401,82 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private val gazeCallback = object : GazeCallback {
+        override fun onGaze(gazeInfo: GazeInfo) {
+            if (isGazeTrackingStarting) {
+                isGazeTrackingStarting = false
+                updateViewState()
+            }
+            if (gazeTrackerManager?.isCalibrating() == false) {
+                runOnUiThread {
+                    showGazePoint(gazeInfo.x, gazeInfo.y, gazeInfo.screenState)
 
 
+                    var tmpParam = binding.gazePointView.layoutParams as FrameLayout.LayoutParams
+                    tmpParam.leftMargin = (gazeInfo.x - 20).toInt()
+                    tmpParam.topMargin = (gazeInfo.y - 20).toInt()
+                    binding.gazePointView.layoutParams = tmpParam
+
+
+//                    (binding.gazePointView.layoutParams as FrameLayout.LayoutParams).apply {
+//
+//                        leftMargin = (gazeInfo.x - 20).toInt()
+//                        topMargin = (gazeInfo.y - 20).toInt()
+////                        x = gazeInfo.x - 20
+////                        y = gazeInfo.y - 20
+//                    }
+                }
+            }
+        }
+    }
+    private val calibrationCallback = object : CalibrationCallback {
+        override fun onCalibrationProgress(progress: Float) {
+            runOnUiThread {
+
+                binding.calibrationPercentText.text = "${((progress * 100).toInt()).toString()}%"
+            }
+        }
+
+        override fun onCalibrationNextPoint(fx: Float, fy: Float) {
+            binding.calibrationIcon.apply {
+                // TODO: absolute/perfect coordinates calculation fix
+                runOnUiThread {
+                    x = fx
+                    y = fy
+                }
+            }
+
+            backgroundHandler?.postDelayed({
+                startCollectSamples()
+            }, 1000)
+        }
+
+        override fun onCalibrationFinished(calibrationData: DoubleArray?) {
+            updateViewState()
+        }
+    }
+
+    private val userStatusCallback = object : UserStatusCallback {
+        override fun onAttention(timestampBegin: Long, timestampEnd: Long, score: Float) {
+
+        }
+
+        override fun onBlink(
+            timestamp: Long,
+            isBlinkLeft: Boolean,
+            isBlinkRight: Boolean,
+            isBlink: Boolean,
+            eyeOpenness: Float
+        ) {
+
+        }
+
+        override fun onDrowsiness(timestamp: Long, isDrowsiness: Boolean) {
+
+        }
+    }
+
+    // ----- Toast Helper ----- //
     private fun showToast(msg: String, isShort: Boolean = true) {
         runOnUiThread {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
