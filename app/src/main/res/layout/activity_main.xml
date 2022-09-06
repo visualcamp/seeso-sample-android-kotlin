@@ -12,9 +12,14 @@
         tools:context=".activity.MainActivity">
 
         <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#F5F5F5">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#F5F5F5"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -125,7 +130,8 @@
                         android:layout_height="wrap_content"
                         android:background="#F5F5F5"
                         android:paddingHorizontal="0dp"
-                        android:paddingVertical="0dp">
+                        android:paddingVertical="0dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/guide_init_gaze_tracker"
@@ -236,7 +242,8 @@
                         android:layout_height="wrap_content"
                         android:background="#F5F5F5"
                         android:paddingHorizontal="0dp"
-                        android:paddingVertical="0dp">
+                        android:paddingVertical="0dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/guide_start_gaze_tracking"
@@ -288,7 +295,8 @@
                         android:layout_height="wrap_content"
                         android:background="#F5F5F5"
                         android:paddingHorizontal="0dp"
-                        android:paddingVertical="0dp">
+                        android:paddingVertical="0dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/guide_calibration"
@@ -384,6 +392,7 @@
                                 android:layout_height="1dp"
                                 android:layout_marginVertical="10dp"
                                 android:background="#F5F5F5"
+                                android:visibility="gone"
                                 app:layout_constraintTop_toBottomOf="@id/segmented_calibration_type" />
 
                             <TextView
@@ -403,60 +412,76 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:background="@color/all_gray200" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/user_status_container"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/all_white"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="0dp"
 
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/guide_calibration">
 
+                        <View
+                            android:id="@+id/user_status_top_separator1"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:background="@color/all_gray200"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <TextView
-                            android:id="@+id/user_option_title"
+                            android:id="@+id/user_status_title"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="5dp"
-                            android:paddingBottom="20dp"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="5dp"
                             android:text="User Options Info"
                             android:textColor="#1D1D1D"
                             android:textSize="17sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@id/user_status_top_separator1" />
+
+                        <View
+                            android:id="@+id/user_status_top_separator2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#F5F5F5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/user_status_title" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="0dp"
+                            android:paddingHorizontal="30dp"
 
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/user_option_title">
+                            app:layout_constraintTop_toBottomOf="@id/user_status_top_separator2">
 
 
                             <TextView
                                 android:id="@+id/attention_text"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginVertical="5dp"
+                                android:layout_marginVertical="15dp"
+
                                 android:text="Attention score of recent 30s"
                                 android:textColor="#1D1D1D"
                                 android:textSize="17sp"
                                 app:layout_constraintEnd_toStartOf="@id/attention_score"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/user_option_separator1"/>
 
                             <TextView
                                 android:id="@+id/attention_score"
@@ -549,6 +574,7 @@
                                 android:text="Show Detail Option"
                                 android:textColor="#1D1D1D"
                                 android:textSize="17sp"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/user_option_separator3" />
@@ -557,6 +583,7 @@
                                 android:id="@+id/switch_user_option_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/user_option_separator3" />
@@ -570,7 +597,7 @@
                         android:id="@+id/detail_user_status_container"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -658,6 +685,8 @@
                                 android:layout_height="1dp"
                                 android:layout_marginVertical="10dp"
                                 android:background="#F5F5F5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/attention_check_count_text" />
 
                             <TextView
@@ -690,6 +719,8 @@
                                 android:layout_height="1dp"
                                 android:layout_marginVertical="10dp"
                                 android:background="#F5F5F5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/left_only_blink_count_text" />
 
                             <TextView
@@ -722,6 +753,8 @@
                                 android:layout_height="1dp"
                                 android:layout_marginVertical="10dp"
                                 android:background="#F5F5F5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/right_only_blink_count_text" />
 
                             <TextView
@@ -754,6 +787,8 @@
                                 android:layout_height="1dp"
                                 android:layout_marginVertical="10dp"
                                 android:background="#F5F5F5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/both_blink_count_text" />
 
                             <TextView
@@ -763,9 +798,9 @@
                                 android:layout_marginVertical="10dp"
                                 android:text="average eye Openness"
                                 android:textColor="#1D1D1D"
-                                android:textSize="17sp"
+                                android:textSize="15sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator5" />
 
                             <TextView
@@ -775,7 +810,7 @@
                                 android:gravity="end"
                                 android:text="0"
                                 android:textColor="#1D1D1D"
-                                android:textSize="17sp"
+                                android:textSize="15sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/detail_user_status_separator5" />

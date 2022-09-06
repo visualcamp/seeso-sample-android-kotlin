@@ -23,7 +23,6 @@ class GazeTrackerManager private constructor(context: Context) {
     var isInitWithUserOption = false
     var initializeState: SeeSoInitializeState = SeeSoInitializeState.default
 
-
     private val mContext: WeakReference<Context> = WeakReference(context)
     private var gazeTracker: GazeTracker? = null
 
@@ -84,17 +83,6 @@ class GazeTrackerManager private constructor(context: Context) {
         }
     }
 
-    fun removeCallbacks(vararg callbacks: GazeTrackerCallback?) {
-        for (callback in callbacks) {
-            when (callback) {
-                is GazeCallback -> gazeCallbacks.remove(callback)
-                is CalibrationCallback -> calibrationCallbacks.remove(callback)
-                is StatusCallback -> statusCallbacks.remove(callback)
-                is UserStatusCallback -> userStatusCallbacks.remove(callback)
-            }
-        }
-    }
-
     fun setGazeTrackingFps(fps: Int): Boolean {
         return gazeTracker?.setTrackingFPS(fps) ?: false
     }
@@ -125,15 +113,6 @@ class GazeTrackerManager private constructor(context: Context) {
         }
     }
 
-    fun stopCalibration(): Boolean {
-        return if (isCalibrating()) {
-            gazeTracker?.stopCalibration()
-            true
-        } else {
-            false
-        }
-    }
-
     // Start Collect calibration sample data
     fun startCollectionCalibrationSamples(): Boolean {
         return if (isCalibrating()) {
@@ -153,8 +132,6 @@ class GazeTrackerManager private constructor(context: Context) {
                 initializationCallback.onInitialized(gazeTracker, error)
             }
             initializationCallbacks.clear()
-
-            gazeTracker?.setTrackingFPS(30)
             gazeTracker?.setCallbacks(
                 gazeCallback,
                 calibrationCallback,

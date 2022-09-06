@@ -11,7 +11,6 @@ import android.provider.Settings
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -25,8 +24,6 @@ import camp.visual.gazetracker.constant.CalibrationModeType
 import camp.visual.gazetracker.constant.InitializationErrorType
 import camp.visual.gazetracker.constant.StatusErrorType
 import camp.visual.gazetracker.gaze.GazeInfo
-import camp.visual.gazetracker.state.ScreenState
-import camp.visual.gazetracker.util.ViewLayoutChecker
 
 
 @SuppressLint("ClickableViewAccessibility")
@@ -42,16 +39,17 @@ class MainActivity : AppCompatActivity() {
 
     // SeeSo
     private var gazeTrackerManager: GazeTrackerManager? = null
+    var isGazeTrackingStarting = false
+    var gazeTrackerFPS: Int = 30
+
+    // SeeSo UserStatus
+    var recentAttentionScore: Int = 0
+    var blinked = false
+    var isSleepy = false
 
     // Thread control
     private val backgroundThread: HandlerThread = HandlerThread("background")
     private var backgroundHandler: Handler? = null
-
-    // Screen Offset
-    private var offsets: IntArray = IntArray(2)
-    private val viewLayoutChecker: ViewLayoutChecker = ViewLayoutChecker()
-
-    var isGazeTrackingStarting = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +67,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         gazeTrackerManager?.setGazeTrackerCallbacks(
             gazeCallback,
             calibrationCallback,
@@ -78,22 +75,9 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-        setOffsetOfView()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         releaseHandler()
-    }
-
-    // View
-    private fun setOffsetOfView() {
-        viewLayoutChecker.setOverlayView(binding.totalContainer as View) { x, y ->
-            offsets[0] = x
-            offsets[1] = y
-        }
     }
 
     // Thread control
@@ -106,25 +90,50 @@ class MainActivity : AppCompatActivity() {
         backgroundThread.quitSafely()
     }
 
-    private fun showGazePoint(x: Float, y: Float, type: ScreenState) {
-        runOnUiThread {
-            binding.apply {
-                (gazePointView.layoutParams as FrameLayout.LayoutParams).apply {
-                    leftMargin = x.toInt()
-                    topMargin = y.toInt()
-                }
+    // Permission Check
+    private fun checkPermission() {
+        if (hasPermissions(permissions)) {
+            permissionsGranted()
+        }
+    }
+
+    private fun hasPermissions(permission: Array<String>): Boolean {
+        for (perms in permissions) {
+            if ((perms == Manifest.permission.SYSTEM_ALERT_WINDOW) && !Settings.canDrawOverlays(this)) {
+                return false
+            }
+            val check = ContextCompat.checkSelfPermission(this, perms)
+            if (check == PackageManager.PERMISSION_DENIED) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun checkPermission(isGranted: Boolean) {
+        if (isGranted) permissionsGranted() else finish()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            permissionCode -> if (grantResults.isNotEmpty()) {
+                checkPermission(grantResults.first() == PackageManager.PERMISSION_GRANTED)
             }
         }
     }
 
+    private fun permissionsGranted() {
+        updateViewState()
+    }
+
+    // View Setup
     private fun addTouchListenerToViews() {
         binding.apply {
-            calibrationContainer.apply {
-            }
-            calibrationIcon.apply {
-                pivotX = (width / 2).toFloat()
-                pivotY = (height / 2).toFloat()
-            }
             requestPermissionButton.setOnTouchListener { _, _ ->
                 requestPermissions(permissions, permissionCode)
                 true
@@ -166,47 +175,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
-
-            switchUserOptionDetail.setOnCheckedChangeListener { _, isChecked ->
-                 if (isChecked) {
-
-                }
-            }
         }
-
-//        binding.gazeTrackerInit.setOnTouchListener { _, ev ->
-//            when (ev.action) {
-//                MotionEvent.ACTION_DOWN -> {
-//                    var isHidden = binding.optionContainer.visibility == View.GONE
-//                    binding.optionContainer.visibility = if (isHidden) View.VISIBLE else View.GONE
-//                }
-//                else -> {
-//
-//                }
-//            }
-//            true
-//        }
-//        binding.segmentedCalibrationType.check(binding.onePoint.id)
-//        binding.switchInitUserOption.setOnCheckedChangeListener { _, isChecked ->
-//
-//            runOnUiThread {
-//                binding.calibrationView.visibility = if (isChecked) View.VISIBLE else View.GONE
-//            }
-//            binding.calibrationView.setPointAnimationPower(10.0f)
-//            binding.calibrationView.setPointPosition(50.0f, 50.0f)
-//            binding.calibrationView.setPointAnimationPower(0.0f)
-//
-//            window.setDecorFitsSystemWindows(!isChecked)
-//            if (isChecked) {
-//                window.insetsController?.hide(WindowInsets.Type.statusBars())
-//            } else {
-//                window.insetsController?.show(WindowInsets.Type.statusBars())
-//            }
-//
-//
-//        }
     }
-
 
     private fun updateViewState() {
         runOnUiThread {
@@ -268,6 +238,10 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 // ------ tracking ------ //
+                gazePointView.apply {
+                    pivotX = (width / 2).toFloat()
+                    pivotY = (height / 2).toFloat()
+                }
                 upperStartTrackingContainer.visibility =
                     if (!isInitialized) View.GONE else View.VISIBLE
                 startTrackingButton.text = if (isTracking) "Stop Tracking" else "Start Tracking"
@@ -276,6 +250,10 @@ class MainActivity : AppCompatActivity() {
 
 
                 // ------ calibration ------ //
+                calibrationIcon.apply {
+                    pivotX = (width / 2).toFloat()
+                    pivotY = (height / 2).toFloat()
+                }
                 calibrationContainer.visibility =
                     if (isTracking) View.VISIBLE else View.GONE
                 calibrationViewContainer.visibility = if (isCalibrating) View.VISIBLE else View.GONE
@@ -292,52 +270,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Permission Check
-    private fun checkPermission() {
-        if (hasPermissions(permissions)) {
-            permissionsGranted()
-        }
-    }
-
-    private fun hasPermissions(permission: Array<String>): Boolean {
-        for (perms in permissions) {
-            if ((perms == Manifest.permission.SYSTEM_ALERT_WINDOW) && !Settings.canDrawOverlays(this)) {
-                return false
-            }
-            val check = ContextCompat.checkSelfPermission(this, perms)
-            if (check == PackageManager.PERMISSION_DENIED) {
-                return false
+    private fun updateUserStatusView() {
+        if (gazeTrackerManager?.isInitWithUserOption == true) {
+            runOnUiThread {
+                binding.apply {
+                    attentionScore.text = "$recentAttentionScore%"
+                    blinkState.text = if (blinked) "X_X" else "O_O"
+                    sleepyState.text = if (isSleepy) "yes.." else "nope!"
+                }
             }
         }
-        return true
-    }
-
-    private fun checkPermission(isGranted: Boolean) {
-        if (isGranted) permissionsGranted() else finish()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            permissionCode -> if (grantResults.isNotEmpty()) {
-                checkPermission(grantResults.first() == PackageManager.PERMISSION_GRANTED)
-            }
-        }
-    }
-
-    private fun permissionsGranted() {
-        updateViewState()
-
     }
 
     // SeeSo GazeTracker Functions
     private fun initGazeTracker() {
         val withOption = binding.switchInitUserOption.isChecked
         gazeTrackerManager?.initGazeTracker(initializationCallback, withOption)
+
+        // You can also set FPS of gazeTracker if you want
+        gazeTrackerManager?.setGazeTrackingFps(gazeTrackerFPS)
     }
 
     private fun deinitGazeTracker() {
@@ -409,22 +360,10 @@ class MainActivity : AppCompatActivity() {
             }
             if (gazeTrackerManager?.isCalibrating() == false) {
                 runOnUiThread {
-                    showGazePoint(gazeInfo.x, gazeInfo.y, gazeInfo.screenState)
-
-
-                    var tmpParam = binding.gazePointView.layoutParams as FrameLayout.LayoutParams
-                    tmpParam.leftMargin = (gazeInfo.x - 20).toInt()
-                    tmpParam.topMargin = (gazeInfo.y - 20).toInt()
-                    binding.gazePointView.layoutParams = tmpParam
-
-
-//                    (binding.gazePointView.layoutParams as FrameLayout.LayoutParams).apply {
-//
-//                        leftMargin = (gazeInfo.x - 20).toInt()
-//                        topMargin = (gazeInfo.y - 20).toInt()
-////                        x = gazeInfo.x - 20
-////                        y = gazeInfo.y - 20
-//                    }
+                    binding.gazePointView.apply {
+                        x = gazeInfo.x
+                        y = gazeInfo.y
+                    }
                 }
             }
         }
@@ -432,7 +371,6 @@ class MainActivity : AppCompatActivity() {
     private val calibrationCallback = object : CalibrationCallback {
         override fun onCalibrationProgress(progress: Float) {
             runOnUiThread {
-
                 binding.calibrationPercentText.text = "${((progress * 100).toInt()).toString()}%"
             }
         }
@@ -458,7 +396,8 @@ class MainActivity : AppCompatActivity() {
 
     private val userStatusCallback = object : UserStatusCallback {
         override fun onAttention(timestampBegin: Long, timestampEnd: Long, score: Float) {
-
+            recentAttentionScore = (score * 100).toInt()
+            updateUserStatusView()
         }
 
         override fun onBlink(
@@ -468,11 +407,18 @@ class MainActivity : AppCompatActivity() {
             isBlink: Boolean,
             eyeOpenness: Float
         ) {
-
+            if (isBlink) {
+                blinked = true
+                backgroundHandler?.postDelayed({
+                    blinked = false
+                }, 400)
+            }
+            updateUserStatusView()
         }
 
         override fun onDrowsiness(timestamp: Long, isDrowsiness: Boolean) {
-
+            isSleepy = isDrowsiness
+            updateUserStatusView()
         }
     }
 
